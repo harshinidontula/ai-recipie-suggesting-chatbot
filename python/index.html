@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Recipe Suggestion Bot</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
+  <!-- Login Container -->
+  <div id="login-container" class="text-center bg-white p-8 rounded-xl shadow-2xl">
+    <h1 class="text-3xl font-bold text-blue-600 mb-4">AI Recipe Bot</h1>
+    <p class="text-gray-600 mb-4">Initializing secure session...</p>
+    <div class="loader mx-auto"></div>
+  </div>
+
+  <script type="module">
+    import { app, auth } from './firebase-config.js';
+    import { signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("Signed in anonymously");
+      })
+      .catch(err => console.error(err));
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        localStorage.setItem("userId", user.uid);
+        window.location.href = "home.html";
+      }
+    });
+  </script>
+</body>
+</html>
